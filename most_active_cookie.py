@@ -1,42 +1,30 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 
-import argparse
+"""
+Entry point to program
+"""
+
+from parser.parser import ArgParser, FileParser, LogParser
+from cookie.cookie import LABEL_COOKIE, LABEL_TIMESTAMP, LABEL_CODE, LABEL_DATE, Cookie
+from cookie.cookie_collection import CookieCollection
+from timeutil.timeutil import parse_date_utc
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description="find most active cookie")
-    parser.add_argument("logfile", help="log file name", metavar="LOGFILE")
-    parser.add_argument("-d", "--date", help="date in UTC time zone", required=True)
-    args = parser.parse_args()
-
-    cookies = {}
-
-    with open(args.logfile) as f:
-        
-        for line in f:
-            # remove '\n' character at end of line
-            line = line.strip()
-
-            # each line will have two columns in csv format [cookie, UTC timestamp]
-            cookie = line.split(",")[0]
-            timestamp = line.split(",")[1]
-            date = timestamp.split("T")[0]
-
-            if date == args.date:
-                if cookie in cookies:
-                    cookies[cookie] += 1
-                else:
-                    cookies[cookie] = 1
+    args = ArgParser().parse()
     
-    # keep track of most active cookies by occurence
-    most_active_cookies = [""]
-    max_occurence = 0
-    for key in cookies:
-        if cookies[key] > max_occurence:
-            most_active_cookies[0] = key
-            max_occurence = cookies[key]
-        elif cookies[key] == max_occurence:
-            most_active_cookies.append(key)
+    fp = FileParser(filename=args.logfile)
+    fdata = fp.parse(omit_headers=True)
 
-    for c in most_active_cookies:
-        print(c)
+    lp = LogParser(delimeter=LogParser.TYPE_CSV)
+
+    log_lines = lp.binary_search_cookie(fdata, args.date)
+    cc = CookieCollection()
+
+    for line in log_lines:
+        parsed_log = lp.parse(line, labels=[LABEL_CODE, LABEL_TIMESTAMP])
+        cookie = Cookie(parsed_log[LABEL_CODE], parse_date_utc(parsed_log[LABEL_TIMESTAMP]))
+        cc.add(cookie)
+    most_active = cc.most_active()
+    for active in most_active:
+        print(active)
