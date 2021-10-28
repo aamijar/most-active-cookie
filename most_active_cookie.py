@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 
 """
 Entry point to program
 """
 
-from parser.parser import ArgParser, FileParser, LogParser
+from parsing.parser import ArgParser, FileParser, LogParser
 from cookie.cookie import LABEL_COOKIE, LABEL_TIMESTAMP, LABEL_CODE, LABEL_DATE, Cookie
 from cookie.cookie_collection import CookieCollection
 from timeutil.timeutil import parse_date_utc
