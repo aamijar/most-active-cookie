@@ -1,4 +1,5 @@
 # most-active-cookie
+[![pytest_run workflow](https://github.com/aamijar/most-active-cookie/actions/workflows/pytest_run.yml/badge.svg)](https://github.com/aamijar/most-active-cookie/actions/workflows/pytest_run.yml)
 
 Command line program to process log file and return the most active cookie
 
