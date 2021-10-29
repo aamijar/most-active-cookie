@@ -55,4 +55,12 @@ $ pip freeze > requirements.txt
 
 ## Testing
 
+At root of project use pytest
+
+```
+$ python3 -m pytest
+```
+
 ## Project Structure
+
+
