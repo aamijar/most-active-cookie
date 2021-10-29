@@ -16,6 +16,11 @@ Assumptions:
 
 ## Run Steps
 
+Clone Repository:
+```
+$ git clone https://github.com/aamijar/most-active-cookie.git
+```
+
 Quick Run:
 ```
 $ python3 most_active_cookie.py cookie_log.csv -d 2018-12-09
