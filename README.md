@@ -1,4 +1,4 @@
-# most_active_cookie
+# most-active-cookie
 
 Command line program to process log file and return the most active cookie
 
@@ -63,4 +63,9 @@ $ python3 -m pytest
 
 ## Project Structure
 
-
+* /cookie - datatypes to hold cookie[s] and find most active
+* /parsing 
+    * read cli arguments and read log file lines
+    * filter log file content based on cli arguments (ex. UTC Date) using binary search
+* /timeutil - helper functions to determine date and time from UTC format
+* /testing - pytest based tests to validate program functions
